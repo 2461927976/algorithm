@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>PID</title>
+    <style>
+        .wrap{
+            position: relative;
+            width: 80%;
+        }
+        .btn{
+            width: 80%;
+            margin: 0 auto;
+            /*background-color: black;*/
+            margin-top: 50px;
+        }
+        .btn input{
+            width: 50px;
+            border: 1px solid #FF8902;
+            border-radius: 5px;
+        }
+        .set{
+            border: 1px solid #FF8902;
+            border-radius: 5px;
+            color: #fff;
+            background-color: #FF8902;
+        }
+        #start{
+            border: 1px solid #33ff09;
+            border-radius: 5px;
+            color: #fff;
+            background-color: #33ff09;
+        }
+        #stop{
+            border: 1px solid #ff1515;
+            border-radius: 5px;
+            color: #fff;
+            background-color: #ff1515;
+        }
+        .fix{
+            border: 1px solid #0c29ff;
+            border-radius: 5px;
+            color: #fff;
+            background-color: #0c29ff;
+        }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <canvas id="myChart"></canvas>
+</div>
+<div class="btn">
+    <input type="text" id="leakInit">
+    <button id="set" class="set">初始值</button>
+    <input type="text" id="expext">
+    <button id="expextBtn" class="set">期望值</button>
+    Kp:<input type="text" id="Kp">
+    Ki:<input type="text" id="Ki">
+    Kd:<input type="text" id="Kd">
+    <button id="fix" class="fix">校正</button>
+</div>
+<script src="moment.js"></script>
+<script src="jquery-3.3.1.min.js"></script>
+<script src="Chart.min.js"></script>
+<script src="config.js"></script>
+<script src="PID.js"></script>
+<script>
+    let ctx = document.getElementById('myChart').getContext('2d');
+    window.onload = ()=>{
+        window.myLine = new Chart(ctx, config);
+    }
+    $("#set").click(()=>{
+        config.data.datasets[0].data.push(leakInit())
+        window.myLine = new Chart(ctx, config);
+    })
+    $("#expextBtn").click(()=>{
+        expect($("#expext").val())
+        window.myLine = new Chart(ctx, config);
+    })
+    $("#fix").click(()=>{
+        make()
+        setInterval(()=>{
+            expect($("#expext").val())
+            config.data.labels.push(date2(date1))
+            window.myLine = new Chart(ctx, config);
+        },1000)
+
+    })
+</script>
+</body>
+</html>
