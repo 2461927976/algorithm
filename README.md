@@ -1,3 +1,4 @@
-##数据结构和算法
+## 算法
 
-####此项目主要为数据结构和算法
+1. lanqiao 为蓝桥杯练习题
+2. leetcode 为javascript实现leetcode上的算法题
